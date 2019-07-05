@@ -1,16 +1,35 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import './App.css';
+import Narbar from './Components/Users/Layout/Navbar';
+import Users from './Components/Users/Users';
+import axios from 'axios';
 
 class App extends Component {
-  render() {
-    const name = 'John Doe';
-    const loading = false;
-    const showName = true;
+  state = {
+    users: [],
+    loading: false
+  };
 
+  async componentDidMount() {
+    this.setState({ loading: false });
+
+    const res = await axios.get(
+      `https://api.github.com/users?client_id=${
+        process.env.REACT_APP_GITHUB_CLIENT_ID
+      }&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    this.setState({ users: res.data, loading: false });
+  }
+
+  render() {
     return (
-      <Fragment>
-        {loading ? <h4>loading...</h4> : <h1>Hello{showName && name}</h1>}
-      </Fragment>
+      <div className='App'>
+        <Narbar />
+        <div className='container'>
+          <Users loading={this.state.loading} users={this.state.users} />
+        </div>
+      </div>
     );
   }
 }
