@@ -1,6 +1,6 @@
 import React from 'react';
 import UserItem from './Useritem';
-import Spinner from './Layout/Images/spinner.gif';
+import Spinner from './Layout/spinner';
 import PropTypes from 'prop-types';
 
 const User = ({ users, loading }) => {
