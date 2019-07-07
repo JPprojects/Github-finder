@@ -4,6 +4,7 @@ import Users from './Components/Users/Users';
 import axios from 'axios';
 import Search from './Components/Users/Search';
 import './App.css';
+import { async } from 'q';
 
 class App extends Component {
   state = {
@@ -23,6 +24,7 @@ class App extends Component {
     this.setState({ users: res.data, loading: false });
   }
 
+  //searches Github for users
   searchUsers = async text => {
     this.setState({ loading: true });
 
@@ -36,13 +38,22 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
+  //clear users
+  clearUsers = () => this.setState({ users: [], loading: false });
+
   render() {
+    const { users, loading } = this.state;
+
     return (
       <div className='App'>
         <Narbar />
         <div className='container'>
-          <Search searchUsers={this.searchUsers} />
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search
+            searchUsers={this.searchUsers}
+            clearUsers={this.clearUsers}
+            showClear={users.length > 0 ? true : false}
+          />
+          <Users loading={loading} users={users} />
         </div>
       </div>
     );
