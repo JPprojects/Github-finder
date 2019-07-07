@@ -3,13 +3,15 @@ import Narbar from './Components/Users/Layout/Navbar';
 import Users from './Components/Users/Users';
 import axios from 'axios';
 import Search from './Components/Users/Search';
-import './App.css';
 import { async } from 'q';
+import Alert from './Components/Users/Layout/Alert';
+import './App.css';
 
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   };
 
   async componentDidMount() {
@@ -41,6 +43,13 @@ class App extends Component {
   //clear users
   clearUsers = () => this.setState({ users: [], loading: false });
 
+  //set alert for no input
+  setAlert = (msg, type) => {
+    this.setState({
+      alert: { msg, type }
+    });
+  };
+
   render() {
     const { users, loading } = this.state;
 
@@ -48,10 +57,12 @@ class App extends Component {
       <div className='App'>
         <Narbar />
         <div className='container'>
+          <Alert />
           <Search
             searchUsers={this.searchUsers}
             clearUsers={this.clearUsers}
             showClear={users.length > 0 ? true : false}
+            setAlert={this.setAlert}
           />
           <Users loading={loading} users={users} />
         </div>
