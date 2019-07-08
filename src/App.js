@@ -57,7 +57,7 @@ class App extends Component {
       <div className='App'>
         <Narbar />
         <div className='container'>
-          <Alert />
+          <Alert alert={this.state.alert} />
           <Search
             searchUsers={this.searchUsers}
             clearUsers={this.clearUsers}
