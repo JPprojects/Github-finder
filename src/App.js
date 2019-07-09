@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import Narbar from './Components/Users/Layout/Navbar';
+import React, { Component, Fragment } from 'react';
+import Navbar from './Components/Users/Layout/Navbar';
 import Users from './Components/Users/Users';
 import axios from 'axios';
 import Search from './Components/Users/Search';
 import { async } from 'q';
 import Alert from './Components/Users/Layout/Alert';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import About from './Components/Pages/About';
 import './App.css';
 
 class App extends Component {
@@ -48,25 +50,39 @@ class App extends Component {
     this.setState({
       alert: { msg, type }
     });
+    setTimeout(() => this.setState({ alert: null }), 5000);
   };
 
   render() {
     const { users, loading } = this.state;
 
     return (
-      <div className='App'>
-        <Narbar />
-        <div className='container'>
-          <Alert alert={this.state.alert} />
-          <Search
-            searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            showClear={users.length > 0 ? true : false}
-            setAlert={this.setAlert}
-          />
-          <Users loading={loading} users={users} />
+      <Router>
+        <div className='App'>
+          <Navbar />
+          <div className='container'>
+            <Alert alert={this.state.alert} />
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={props => (
+                  <Fragment>
+                    <Search
+                      searchUsers={this.searchUsers}
+                      clearUsers={this.clearUsers}
+                      showClear={users.length > 0 ? true : false}
+                      setAlert={this.setAlert}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )}
+              />
+              <Route exact path='/about' component={About} />
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
