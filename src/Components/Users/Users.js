@@ -2,6 +2,7 @@ import React from 'react';
 import UserItem from './Useritem';
 import Spinner from './Layout/spinner';
 import PropTypes from 'prop-types';
+import GithubContext from '../../context/github/githubcontext';
 
 const User = ({ users, loading }) => {
   console.log(loading);
